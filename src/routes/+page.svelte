@@ -1,9 +1,13 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-
 	import { Document, Page, preferThisHeight } from 'svelte-pdfjs';
 
+	//имя файла - обязательно поменяйте на своё
 	let filename = 'source.pdf';
+
+	//разрешить копирование текста?
+	let renderTextLayer = true;
+
 	let scale = 1;
 	let num = 1;
 	let max_pages = 1;
@@ -72,9 +76,9 @@
 							<button>&larr</button>
 						</div>
 					{/if}
-					<Page {scale} {num} getViewport={preferThisHeight(height)} />
+					<Page {scale} {num} {renderTextLayer} getViewport={preferThisHeight(height)} />
 					{#if double && num !== 1 && num !== max_pages}
-						<Page {scale} num={num + 1} getViewport={preferThisHeight(height)} />
+						<Page {scale} num={num + 1} {renderTextLayer} getViewport={preferThisHeight(height)} />
 					{/if}
 					{#if num !== max_pages}
 						<div on:click={() => (num = num + step)} class="flex h-[{height}] align-middle w-10">
