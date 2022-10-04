@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { Document, Page, preferThisHeight } from 'svelte-pdfjs';
+	import LightSwitch from '$lib/components/LightSwitch.svelte';
 
 	//имя файла - поменяйте на своё
 	let filename = 'source.pdf';
@@ -17,7 +18,7 @@
 	$: step = double ? 2 : 1;
 </script>
 
-<div class="flex flex-col max-w-full p-2">
+<div class="flex flex-col max-w-full py-1">
 	<div class="flex justify-between gap-5 pb-2 items-center text-sm mx-auto">
 		<div class="flex space-x-1">
 			<label for="double">В развороте</label>
@@ -42,22 +43,24 @@
 
 		<div class="flex space-x-1">
 			<label for="zoom">Масштаб</label>
-			<button class={height == 800 ? '!bg-slate-400' : ''} on:click={() => (height = 800)}
+			<button class={height == 800 ? '!bg-stone-500' : ''} on:click={() => (height = 800)}
 				>50%</button
 			>
-			<button class={height == 900 ? '!bg-slate-400' : ''} on:click={() => (height = 900)}
+			<button class={height == 900 ? '!bg-stone-500' : ''} on:click={() => (height = 900)}
 				>75%</button
 			>
-			<button class={height == 1024 ? '!bg-slate-400' : ''} on:click={() => (height = 1024)}
+			<button class={height == 1024 ? '!bg-stone-500' : ''} on:click={() => (height = 1024)}
 				>100%</button
 			>
-			<button class={height == 1600 ? '!bg-slate-400' : ''} on:click={() => (height = 1600)}
+			<button class={height == 1600 ? '!bg-stone-500' : ''} on:click={() => (height = 1600)}
 				>150%</button
 			>
-			<button class={height == 2048 ? '!bg-slate-400' : ''} on:click={() => (height = 2048)}
+			<button class={height == 2048 ? '!bg-stone-500' : ''} on:click={() => (height = 2048)}
 				>200%</button
 			>
 		</div>
+
+		<LightSwitch />
 	</div>
 
 	<div class="mx-auto">
@@ -74,7 +77,7 @@
 					<button
 						disabled={num <= 1}
 						on:click={() => (num = num - step)}
-						class="flex h-[{height}] items-center text-xl justify-center w-10"
+						class="navigation h-[{height}]"
 					>
 						<span>&larr</span>
 					</button>
@@ -87,7 +90,7 @@
 					<button
 						disabled={num >= max_pages}
 						on:click={() => (num = num + step)}
-						class="flex h-[{height}] items-center text-xl justify-center w-10"
+						class="navigation h-[{height}] "
 					>
 						<span>&rarr</span>
 					</button>
@@ -96,17 +99,3 @@
 		{/if}
 	</div>
 </div>
-
-<style>
-	label {
-		@apply font-semibold;
-	}
-
-	input {
-		@apply border text-black font-semibold;
-	}
-
-	button {
-		@apply bg-slate-100 hover:bg-slate-300 rounded w-12 text-center cursor-pointer disabled:bg-white disabled:text-white disabled:cursor-not-allowed;
-	}
-</style>

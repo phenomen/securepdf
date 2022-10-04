@@ -2,3 +2,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+label {
+	@apply font-semibold;
+}
+
+input {
+	@apply border text-black font-semibold;
+}
+
+button {
+	@apply bg-stone-100 hover:bg-stone-300 rounded w-12 text-center cursor-pointer disabled:cursor-not-allowed dark:bg-stone-700 dark:hover:bg-stone-800;
+}
+
+.navigation {
+	@apply flex items-center text-xl justify-center w-10;
+}
