@@ -2,7 +2,7 @@
 	import { browser } from '$app/environment';
 	import { Document, Page, preferThisHeight } from 'svelte-pdfjs';
 
-	//имя файла - обязательно поменяйте на своё
+	//имя файла - поменяйте на своё
 	let filename = 'source.pdf';
 
 	//разрешить копирование текста?
@@ -17,8 +17,8 @@
 	$: step = double ? 2 : 1;
 </script>
 
-<div class="mx-auto p-2">
-	<div class="flex justify-between gap-5 max-w-3xl pb-2 items-center  text-sm">
+<div class="flex flex-col max-w-full p-2">
+	<div class="flex justify-between gap-5 pb-2 items-center text-sm mx-auto">
 		<div class="flex space-x-1">
 			<label for="double">В развороте</label>
 			<input type="checkbox" name="double" bind:checked={double} />
@@ -42,25 +42,25 @@
 
 		<div class="flex space-x-1">
 			<label for="zoom">Масштаб</label>
-			<button class={height == 800 ? 'bg-slate-200' : ''} on:click={() => (height = 800)}
+			<button class={height == 800 ? '!bg-slate-400' : ''} on:click={() => (height = 800)}
 				>50%</button
 			>
-			<button class={height == 900 ? 'bg-slate-200' : ''} on:click={() => (height = 900)}
+			<button class={height == 900 ? '!bg-slate-400' : ''} on:click={() => (height = 900)}
 				>75%</button
 			>
-			<button class={height == 1024 ? 'bg-slate-200' : ''} on:click={() => (height = 1024)}
+			<button class={height == 1024 ? '!bg-slate-400' : ''} on:click={() => (height = 1024)}
 				>100%</button
 			>
-			<button class={height == 1600 ? 'bg-slate-200' : ''} on:click={() => (height = 1600)}
+			<button class={height == 1600 ? '!bg-slate-400' : ''} on:click={() => (height = 1600)}
 				>150%</button
 			>
-			<button class={height == 2048 ? 'bg-slate-200' : ''} on:click={() => (height = 2048)}
+			<button class={height == 2048 ? '!bg-slate-400' : ''} on:click={() => (height = 2048)}
 				>200%</button
 			>
 		</div>
 	</div>
 
-	<div>
+	<div class="mx-auto">
 		{#if browser}
 			<Document
 				file="/pdf/{filename}"
@@ -71,20 +71,26 @@
 				on:loaderror={(e) => console.log(e.detail + '')}
 			>
 				<div class="flex">
-					{#if num !== 1}
-						<div on:click={() => (num = num - step)} class="flex h-[{height}] align-middle w-10">
-							<button>&larr</button>
-						</div>
-					{/if}
+					<button
+						disabled={num <= 1}
+						on:click={() => (num = num - step)}
+						class="flex h-[{height}] items-center text-xl justify-center w-10"
+					>
+						<span>&larr</span>
+					</button>
+
 					<Page {scale} {num} {renderTextLayer} getViewport={preferThisHeight(height)} />
 					{#if double && num !== 1 && num !== max_pages}
 						<Page {scale} num={num + 1} {renderTextLayer} getViewport={preferThisHeight(height)} />
 					{/if}
-					{#if num !== max_pages}
-						<div on:click={() => (num = num + step)} class="flex h-[{height}] align-middle w-10">
-							<button>&rarr</button>
-						</div>
-					{/if}
+
+					<button
+						disabled={num >= max_pages}
+						on:click={() => (num = num + step)}
+						class="flex h-[{height}] items-center text-xl justify-center w-10"
+					>
+						<span>&rarr</span>
+					</button>
 				</div>
 			</Document>
 		{/if}
@@ -101,6 +107,6 @@
 	}
 
 	button {
-		@apply border hover:bg-slate-100 rounded w-12 text-center text-sm;
+		@apply bg-slate-100 hover:bg-slate-300 rounded w-12 text-center cursor-pointer disabled:bg-white disabled:text-white disabled:cursor-not-allowed;
 	}
 </style>
