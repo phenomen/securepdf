@@ -26,6 +26,6 @@
 	}
 </script>
 
-<div class="my-10 w-6 mx-auto">
+<div class="my-10 mx-auto w-6">
 	<button on:click={() => themeToggle()}>{theme === 'dark' ? 'Свет' : 'Тьма'}</button>
 </div>

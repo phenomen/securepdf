@@ -7,7 +7,7 @@ children Page components through the context API.
 	import type { PDFDocumentLoadingTask, PDFDocumentProxy, PDFWorker } from 'pdfjs-dist';
 	import type {
 		DocumentInitParameters,
-		OnProgressParameters,
+		OnProgressParameters
 	} from 'pdfjs-dist/types/src/display/api.js';
 	import { createEventDispatcher, getContext, onDestroy, setContext } from 'svelte';
 	import { writable } from 'svelte/store';
